@@ -84,7 +84,7 @@ public class EmployeePayrollDBService {
 		}
 		return null;
 	}
-	
+
 	public ResultSet sumUsingGroupByGender(String value) {
 		String sqlQuery = String.format("Select gender,sum(%s) from employee_payroll group by gender;",value);
 		try(Connection connection = this.getConnection()) {
@@ -104,5 +104,84 @@ public class EmployeePayrollDBService {
 		}
 		return null;
 	}
-}
 
+	public ResultSet avgUsingGroupByGender(String value) {
+		String sqlQuery = String.format("Select gender,avg(%s) from employee_payroll group by gender;",value);
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			System.out.println("\nAverage of Salary of the employee's group by Gender is as follows \n");
+			while (resultSet.next())
+			{
+				System.out.println(resultSet.getString(1)+" "+
+						resultSet.getString(2));
+			}
+			System.out.println("\nEnd of data\n");
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Exception occured while executing avgUsingGroupByGender : "+e );
+		}
+		return null;
+	}
+
+	public ResultSet minSalaryUsingGroupByGender(String value) {
+		String sqlQuery = String.format("Select gender,min(%s) from employee_payroll group by gender;",value);
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			System.out.println("\nMin Salary of the employee grouped by Gender is : \n");
+			while (resultSet.next())
+			{
+				System.out.println(resultSet.getString(1)+" "+
+						resultSet.getString(2));
+			}
+			System.out.println("\nEnd of data\n");
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Exception occured while executing minSalaryUsingGroupByGender : "+e );
+		}
+		return null;
+	}
+
+	public ResultSet maxSalaryUsingGroupByGender(String value) {
+		String sqlQuery = String.format("Select gender,max(%s) from employee_payroll group by gender;",value);
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			System.out.println("\nMax Salary of the employee grouped by Gender is : \n");
+			while (resultSet.next())
+			{
+				System.out.println(resultSet.getString(1)+" "+
+						resultSet.getString(2));
+			}
+			System.out.println("\nEnd of data\n");
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Exception occured while executing minSalaryUsingGroupByGender : "+e );
+		}
+		return null;
+	}
+
+	public ResultSet countEmployeesUsingGroupByGender(String value) {
+		String sqlQuery = String.format("Select gender,count(%s) from employee_payroll group by gender;",value);
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			System.out.println("\nNumber of employees grouped by Gender are : \n");
+			while (resultSet.next())
+			{
+				System.out.println(resultSet.getString(1)+" "+
+						resultSet.getString(2));
+			}
+			System.out.println("\nEnd of data\n");
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Exception occured while executing minSalaryUsingGroupByGender : "+e );
+		}
+		return null;
+	}
+}

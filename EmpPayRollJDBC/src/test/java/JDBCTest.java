@@ -22,6 +22,8 @@ public class JDBCTest {
 	public void givenEmployeePayrollInDb_WhenRetrieved_ShouldMatchEmployeeCount() throws SQLException {
 		EmployeePayRollService employeePayRollService = new EmployeePayRollService();
 		List<EmployeePayrollData> employeePayrollData = employeePayRollService.readEmployeePayrollData(IOService.DB_IO);
+		System.out.println("\n***Data from the table is as follows ***\n");
+		System.out.println(employeePayrollData.toString());
 		Assert.assertEquals(4,employeePayrollData.size());
 	}
 
@@ -39,10 +41,34 @@ public class JDBCTest {
 		String date_string = "2018-01-02";
 		employeePayrollDBService.retrieveAccordingToDate(date_string);
 	}
-	
+
 	@Test
 	public void abilityToFindSumOfSalary_GroupByGender() {
 		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
 		employeePayrollDBService.sumUsingGroupByGender("basic_pay");
+	}
+
+	@Test
+	public void abilityToFindAvgOfSalary_GroupByGender() {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.avgUsingGroupByGender("basic_pay");
+	}
+
+	@Test
+	public void abilityToFindMinSalary_GroupByGender() {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.minSalaryUsingGroupByGender("basic_pay");
+	}
+
+	@Test
+	public void abilityToFindMaxSalary_GroupByGender() {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.maxSalaryUsingGroupByGender("basic_pay");
+	}
+
+	@Test
+	public void abilityToCountEmployeesUsingGroupByGender() {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.countEmployeesUsingGroupByGender("gender");
 	}
 }
