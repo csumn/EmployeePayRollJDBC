@@ -31,13 +31,18 @@ public class JDBCTest {
 		@SuppressWarnings("unused")
 		List<EmployeePayrollData> employeePayrollData = employeePayRollService.readEmployeePayrollData(IOService.DB_IO);
 		employeePayRollService.updateEmployeeDataUsingStatement("Terisa",550000.00);
-		//		System.out.println("The number of employees are  "+employeePayrollData.size());
 	}
 
 	@Test
 	public void givenStartDate_RetriveAllTheEmployeesWhoJoined_InThatDateRange() {
 		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
-		String date_string = "2019-11-13";
+		String date_string = "2018-01-02";
 		employeePayrollDBService.retrieveAccordingToDate(date_string);
+	}
+	
+	@Test
+	public void abilityToFindSumOfSalary_GroupByGender() {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.sumUsingGroupByGender("basic_pay");
 	}
 }
