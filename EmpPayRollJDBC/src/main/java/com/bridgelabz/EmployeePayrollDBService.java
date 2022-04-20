@@ -26,9 +26,9 @@ public class EmployeePayrollDBService {
 			while(resultSet.next()) {
 				int id = resultSet.getInt("id");
 				String name = resultSet.getString("name");
-				double salary = resultSet.getDouble("basic_pay");
+				double basic_pay = resultSet.getDouble("basic_pay");
 				LocalDate startDate = resultSet.getDate("start").toLocalDate();
-				employeePayrollList.add(new EmployeePayrollData(id,name,salary,startDate));
+				employeePayrollList.add(new EmployeePayrollData(id,name,basic_pay,startDate));
 			}
 			connection.close();
 		}catch (Exception e) {
@@ -47,5 +47,16 @@ public class EmployeePayrollDBService {
 			System.out.println("Exception occured : " +e);
 		}
 		return connection;
+	}
+
+	public int updateEmployeeDataUsingStatement(String name, double basic_pay) {
+		String sqlQuery = String.format("update employee_payroll set basic_pay = %2f where name = '%s';",basic_pay, name);
+		try(Connection connection = this.getConnection()){
+			Statement statement = connection.createStatement();
+			return statement.executeUpdate(sqlQuery);
+		}catch (Exception e) {
+			System.out.println("Exception occured : "+e);
+		}
+		return 0;
 	}
 }

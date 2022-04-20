@@ -6,16 +6,16 @@ public class EmployeePayrollData {
 	
 	public int id;
 	public String name;
-	public double salary;
+	public double basic_pay;
 	
-	public EmployeePayrollData(int id, String name, double salary, LocalDate startDate) {
+	public EmployeePayrollData(int id, String name, double basic_pay, LocalDate startDate) {
 		this.id = id;
 		this.name = name;
-		this.salary = salary;
+		this.basic_pay = basic_pay;
 	}
 
 	@Override
 	public String toString() {
-		return "EmployeePayrollData [id=" + id + ", name=" + name + ", salary=" + salary + "]";
+		return "EmployeePayrollData [id=" + id + ", name=" + name + ", basic_pay=" + basic_pay + "]";
 	}
 }
