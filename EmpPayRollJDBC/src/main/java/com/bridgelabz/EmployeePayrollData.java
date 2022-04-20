@@ -3,11 +3,11 @@ package com.bridgelabz;
 import java.time.LocalDate;
 
 public class EmployeePayrollData {
-	
+
 	public int id;
 	public String name;
 	public double basic_pay;
-	
+
 	public EmployeePayrollData(int id, String name, double basic_pay, LocalDate startDate) {
 		this.id = id;
 		this.name = name;

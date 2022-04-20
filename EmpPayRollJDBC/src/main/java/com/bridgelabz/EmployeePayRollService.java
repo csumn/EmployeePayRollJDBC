@@ -23,7 +23,7 @@ public class EmployeePayRollService {
 	}
 
 	public void updateEmployeeDataUsingStatement(String name, double basic_pay) {
-		int result=new EmployeePayrollDBService().updateEmployeeDataUsingStatement(name,basic_pay);
+		int result = new EmployeePayrollDBService().updateEmployeeDataUsingStatement(name,basic_pay);
 		if(result == 0) return;
 		EmployeePayrollData employeePayrollData = this.getEmployeePayrollData(name);
 		if(employeePayrollData!=null) 

@@ -44,7 +44,7 @@ public class EmployeePayrollDBService {
 				System.out.println("Connected to Database ");
 			}
 		} catch (SQLException e) {
-			System.out.println("Exception occured : " +e);
+			System.out.println("Exception occured while connecting data base : " +e);
 		}
 		return connection;
 	}
@@ -55,8 +55,34 @@ public class EmployeePayrollDBService {
 			Statement statement = connection.createStatement();
 			return statement.executeUpdate(sqlQuery);
 		}catch (Exception e) {
-			System.out.println("Exception occured : "+e);
+			System.out.println("Exception occured while updating salary : "+e);
 		}
 		return 0;
 	}
+
+	public ResultSet retrieveAccordingToDate(String date_string) {
+		String sqlQuery = String.format("select * from employee_payroll where start BETWEEN CAST('%s' AS DATE) AND DATE(NOW());",date_string);
+		try(Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sqlQuery);
+			System.out.println("\nData of employee's who joined between "+date_string+" and now are as follows\n");
+			while (resultSet.next())
+			{
+				System.out.println(resultSet.getString(1)+"	"+
+						resultSet.getString(2)+"	"+
+						resultSet.getString(3)+"	"+
+						resultSet.getString(4)+"	"+
+						resultSet.getString(5)+"	"+
+						resultSet.getString(6)+"	"+
+						resultSet.getString(7));
+			}
+			System.out.println("\nEnd of data\n");
+		}
+		catch (SQLException e)
+		{
+			System.out.println("Exception occured while executing query on date : "+e );
+		}
+		return null;
+	}
 }
+
