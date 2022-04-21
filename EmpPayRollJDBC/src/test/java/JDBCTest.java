@@ -24,7 +24,7 @@ public class JDBCTest {
 		List<EmployeePayrollData> employeePayrollData = employeePayRollService.readEmployeePayrollData(IOService.DB_IO);
 		System.out.println("\n***Data from the table is as follows ***\n");
 		System.out.println(employeePayrollData.toString());
-		Assert.assertEquals(4,employeePayrollData.size());
+		Assert.assertEquals(7,employeePayrollData.size());
 	}
 
 	@Test
@@ -70,5 +70,11 @@ public class JDBCTest {
 	public void abilityToCountEmployeesUsingGroupByGender() {
 		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
 		employeePayrollDBService.countEmployeesUsingGroupByGender("gender");
+	}
+
+	@Test
+	public void abilityToAddNewEmployee() {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.addNewEmployees("6","Shawn", 'M', 4000000.0, "2021-06-12","Sales",50000.0,12000.0,200000.00,3500000.00);
 	}
 }
