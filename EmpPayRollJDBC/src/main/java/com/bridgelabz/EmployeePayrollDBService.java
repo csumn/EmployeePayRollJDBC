@@ -231,7 +231,7 @@ public class EmployeePayrollDBService {
 	}
 
 	public void updateDataUsingPreparedStatement(String name,int id) {
-		
+
 		String sqlQuery1 = "update employee_payroll set name = ? where id = ?";
 		String sqlQuery2 = "update employee_payroll set basic_pay = ? where name = ?";
 
@@ -263,6 +263,68 @@ public class EmployeePayrollDBService {
 
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+		}
+	}
+
+	public void addEmployeeToPayroll(String name, char gender, double basic_pay, String start) throws SQLException {
+		int payment_id = 99;
+		Connection connection = null;
+		connection = this.getConnection();
+		connection.setAutoCommit(false);
+		Statement statement = connection.createStatement();
+		try {
+			String sql = String.format("insert into employee_payroll(name,gender,basic_pay,start) values" +"('%s','%s',%2f,CAST('%s' AS DATE))", name, gender, basic_pay, start);
+			int rowAffected = statement.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
+			if (rowAffected == 1) {
+				System.out.println(payment_id);
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if (resultSet.next()) payment_id = resultSet.getInt(1);
+				System.out.println(payment_id);
+			}
+
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+			connection.rollback();
+		}
+		try {
+			double deductions = basic_pay * 0.2;
+			double taxable_Pay = basic_pay - deductions;
+			double tax = taxable_Pay * 0.1;
+			double netPay = basic_pay - tax;
+			String sql = String.format("insert into payroll" +
+					"(payment_id,basic_pay,deductions,taxable_Pay,tax,net_pay) values"+"(%s,%s,%s,%s,%s,%s)",payment_id, basic_pay,deductions,taxable_Pay, tax, netPay);
+			@SuppressWarnings("unused")
+			int rowAffected = statement.executeUpdate(sql);
+		}
+		catch (SQLException e){
+			System.out.println("inside catch");
+			e.printStackTrace();
+			connection.rollback();
+		}
+		try {
+			connection.commit();
+			String sql="select * from payroll;";
+			try {
+				Connection connection2 = this.getConnection();
+				Statement statement2 = connection2.createStatement();
+				ResultSet resultSet2 = statement2.executeQuery(sql);
+				while (resultSet2.next()){
+					System.out.println(
+							resultSet2.getString(1)+" 	"+
+									resultSet2.getString(2)+"	 "+
+									resultSet2.getString(3)+"	 "+
+									resultSet2.getString(4)+"	 "+
+									resultSet2.getString(5));
+				}
+
+			}
+			catch (SQLException e)
+			{
+				System.out.println("Exception inside payroll display data "+e);
+			}		}
+		catch (SQLException e)
+		{
+			System.out.println("Exception inside AddToPayroll display data "+e);
 		}
 	}
 }
