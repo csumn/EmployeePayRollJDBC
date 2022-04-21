@@ -266,6 +266,35 @@ public class EmployeePayrollDBService {
 		}
 	}
 
+	public void deleteEmployeePayrollER(String name) throws SQLException {
+		String sql = String.format("delete from employee_payroll where name='%s';",name);
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			statement.executeUpdate(sql);
+
+			String sqlQuery="SELECT * FROM employee_payroll;";
+			try {
+				Connection connection2 = this.getConnection();
+				Statement statement2 = connection2.createStatement();
+				ResultSet resultSet1 = statement2.executeQuery(sqlQuery);
+				while (resultSet1.next()){
+					System.out.println(
+							resultSet1.getString(1)+" "+
+									resultSet1.getString(2)+" "+
+									resultSet1.getString(3)+" "+
+									resultSet1.getString(4)+" "+
+									resultSet1.getString(5)+" "+
+									resultSet1.getString(6));
+				}
+
+			}
+			catch (SQLException e)
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+
 	public void addEmployeeToPayroll(String name, char gender, double basic_pay, String start) throws SQLException {
 		int payment_id = 99;
 		Connection connection = null;
