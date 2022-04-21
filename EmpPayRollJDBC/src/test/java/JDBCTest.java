@@ -77,4 +77,12 @@ public class JDBCTest {
 		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
 		employeePayrollDBService.addNewEmployees("6","Shawn", 'M', 4000000.0, "2021-06-12","Sales",50000.0,12000.0,200000.00,3500000.00);
 	}
+
+	@Test
+	public void givenNewSalaryAndOtherDetailsForEmployee_WhenUpdated_ShouldMatch2() {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.updateDataUsingPreparedStatement("Jack", 7);
+	}
 }
+
+

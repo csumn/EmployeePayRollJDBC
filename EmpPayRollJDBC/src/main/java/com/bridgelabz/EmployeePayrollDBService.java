@@ -2,6 +2,7 @@ package com.bridgelabz;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -191,41 +192,80 @@ public class EmployeePayrollDBService {
 		return null;
 	}
 
-	public void addNewEmployees(String id,String name, char gender,double basic_pay, String start, String department,double deductions,double taxable_pay,double tax,double net_pay) {
-		String sqlQuery = String.format("insert into employee_payroll(id,name,gender,basic_pay,start,department,deductions,taxable_pay,tax,net_pay)values('%s','%s','%s',%2f,CAST('%s' AS DATE),'%s',%2f,%2f,%2f,%2f)", id,name, gender, basic_pay, start, department,deductions,taxable_pay,tax,net_pay);
-		try(Connection connection = this.getConnection()) {
-			Statement statement = connection.createStatement();
-			statement.executeUpdate(sqlQuery);
 
-			String sqlQuery2 ="select * from employee_payroll;";
-			try(Connection connection2 = this.getConnection()) {
-				Statement statement2 = connection.createStatement();
-				ResultSet resultSet = statement2.executeQuery(sqlQuery2);
-				System.out.println("\nNew Employee Added to table  : \n");
-				while (resultSet.next())
-				{
-					System.out.println(resultSet.getString(1)+" "+
-							resultSet.getString(2)+" 	"+
-							resultSet.getString(3)+" 	"+
-							resultSet.getString(4)+"	"+
-							resultSet.getString(5)+"	"+
-							resultSet.getString(6)+"	"+
-							resultSet.getString(7)+"	"+
-							resultSet.getString(8)+"	"+
-							resultSet.getString(9)+"	"+
-							resultSet.getString(10));
-				}
-				System.out.println("\nEnd of data\n");
-				connection.close();
-			}
-			catch (SQLException e)
-			{
-				System.out.println("Exception occured while executing minSalaryUsingGroupByGender : "+e );
-			}
-		}
-		catch (SQLException e)
-		{
-			System.out.println("Exception occured while addNewEmployees : "+e );
+
+	//	public void addNewEmployees(String id,String name, char gender,double basic_pay, String start, String department,double deductions,double taxable_pay,double tax,double net_pay) {
+	//		String sqlQuery = String.format("insert into employee_payroll(id,name,gender,basic_pay,start,department,deductions,taxable_pay,tax,net_pay)values('%s','%s','%s',%2f,CAST('%s' AS DATE),'%s',%2f,%2f,%2f,%2f)", id,name, gender, basic_pay, start, department,deductions,taxable_pay,tax,net_pay);
+	//		try(Connection connection = this.getConnection()) {
+	//			Statement statement = connection.createStatement();
+	//			statement.executeUpdate(sqlQuery);
+	//
+	//			String sqlQuery2 ="select * from employee_payroll;";
+	//			try(Connection connection2 = this.getConnection()) {
+	//				Statement statement2 = connection.createStatement();
+	//				ResultSet resultSet = statement2.executeQuery(sqlQuery2);
+	//				System.out.println("\nNew Employee Added to table  : \n");
+	//				while (resultSet.next())
+	//				{
+	//					System.out.println(resultSet.getString(1)+" "+
+	//							resultSet.getString(2)+" 	"+
+	//							resultSet.getString(3)+" 	"+
+	//							resultSet.getString(4)+"	"+
+	//							resultSet.getString(5)+"	"+
+	//							resultSet.getString(6)+"	"+
+	//							resultSet.getString(7)+"	"+
+	//							resultSet.getString(8)+"	"+
+	//							resultSet.getString(9)+"	"+
+	//							resultSet.getString(10));
+	//				}
+	//				System.out.println("\nEnd of data\n");
+	//				connection.close();
+	//			}
+	//			catch (SQLException e)
+	//			{
+	//				System.out.println("Exception occured while executing minSalaryUsingGroupByGender : "+e );
+	//			}
+	//		}
+	//		catch (SQLException e)
+	//		{
+	//			System.out.println("Exception occured while addNewEmployees : "+e );
+	//		}
+	//	}
+
+	public void updateDataUsingPreparedStatement(String name,int id) {
+
+
+		String sqlQuery1 = "update employee_payroll set name = ? where id = ?";
+		String sqlQuery2 = "update employee_payroll set basic_pay = ? where name = ?";
+
+		try (Connection conn = this.getConnection()) {
+			PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery1);
+			preparedStatement.setString(1, name);
+			preparedStatement.setInt(2, id);
+
+			int rowAffected = preparedStatement.executeUpdate();
+			System.out.println(String.format("Name updated using Prepared Statment -- Row affected %d\n", rowAffected));
+
+			PreparedStatement preparedStatement2 = conn.prepareStatement(sqlQuery2);
+			name = "DK";
+			Double basic_pay = 6500000.00;
+
+			preparedStatement2.setDouble(1, basic_pay);
+			preparedStatement2.setString(2, name);
+			
+			rowAffected = preparedStatement2.executeUpdate();
+
+			name = "Kelvin";
+			basic_pay = 2200000.00;
+
+			preparedStatement2.setDouble(1, basic_pay);
+			preparedStatement2.setString(2, name);
+
+			rowAffected = preparedStatement2.executeUpdate();
+			System.out.println(String.format("Salary updated using Prepared Statment -- Row affected %d", rowAffected));
+
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }
