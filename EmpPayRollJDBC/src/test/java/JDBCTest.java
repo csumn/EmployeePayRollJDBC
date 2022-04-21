@@ -24,7 +24,7 @@ public class JDBCTest {
 		List<EmployeePayrollData> employeePayrollData = employeePayRollService.readEmployeePayrollData(IOService.DB_IO);
 		System.out.println("\n***Data from the table is as follows ***\n");
 		System.out.println(employeePayrollData.toString());
-		Assert.assertEquals(9,employeePayrollData.size());
+		Assert.assertEquals(14,employeePayrollData.size());
 	}
 
 	@Test
@@ -75,13 +75,19 @@ public class JDBCTest {
 	@Test
 	public void abilityToAddNewEmployee() {
 		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
-		employeePayrollDBService.addNewEmployees("9","Smith", 'M', 4000000.0, "2021-06-12","Sales",50000.0,12000.0,200000.00,3500000.00);
+		employeePayrollDBService.addNewEmployees("14","Smith", 'M', 4000000.0, "2021-06-12","Sales",50000.0,12000.0,200000.00,3500000.00);
 	}
 
 	@Test
 	public void givenNewSalaryAndOtherDetailsForEmployee_WhenUpdated_ShouldMatch2() {
 		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
 		employeePayrollDBService.updateDataUsingPreparedStatement("Jack", 7);
+	}
+
+	@Test
+	public void abilityToAddNewEmployeeAndPayRoll() throws SQLException {
+		EmployeePayrollDBService employeePayrollDBService = new EmployeePayrollDBService();
+		employeePayrollDBService.addEmployeeToPayroll("Sams", 'F', 9000000.00, "2017-08-12");
 	}
 }
 
